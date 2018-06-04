@@ -1,0 +1,27 @@
+version: '2'
+services:
+  nginx:
+    build:
+      context: ./nginx
+    image: reactjs_nginx
+    ports:
+      - "3030:8080"
+    volumes:
+      - ./app/dist:/wwwroot:ro
+  webpack:
+    build:
+      context: ./app/webpack
+    image: reactjs_webpack
+    # command: webpack -d --watch
+    volumes:
+      # - ./app/src:/app/src:ro
+      # - ./app/dist:/app/dist:z
+      # - ./app/webpack/:/app/webpack:z
+      - ./app:/app:z
+    tty: true
+  client:
+    image: httpd:latest
+    ports:
+      - "3333:80"
+    volumes:
+      - ./playground:/usr/local/apache2/htdocs/
