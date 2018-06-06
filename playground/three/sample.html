@@ -1,138 +1,190 @@
 <!doctype html>
 <html lang="ja">
-	<head>
-		<meta charset="UTF-8">
-		<title>Threejsの練習</title>
-		<style>canvas { width: 100%; height: 100% }</style>
-	</head>
-	<body>
-		<style type="text/css">
+		<head>
+				<meta charset="UTF-8">
+				<title>Threejsの練習</title>
+				<style>canvas { width: 100%; height: 100% }</style>
+		</head>
+		<body>
+				<style type="text/css">
          html, body {
              margin: 0;
              padding: 0;
          }
-		</style>
-		<script src="js/jquery-3.3.1.min.js"></script>
-		<script src="js/three.min.js"></script>
-		<script src="js/OrbitControls.js"></script>
-		<script>
-		 //CSVファイルを読み込む関数getCSV()の定義
-		 var dataset = [];
-		 function getCSV(){
-			 var req = new XMLHttpRequest(); // HTTPでファイルを読み込むためのXMLHttpRrequestオブジェクトを生成
-			 req.open("get", "data/sample_1000Hz_sub04.csv", true); // アクセスするファイルを指定
-			 req.send(null); // HTTPリクエストの発行
-			 
-			 // レスポンスが返ってきたらconvertCSVtoArray()を呼ぶ	
-			 req.onload = function(){
-				 dataset = convertCSVtoArray(req.responseText); // 渡されるのは読み込んだCSVデータ
+				</style>
+				<script src="js/jquery-3.3.1.min.js"></script>
+				<script src="js/three.min.js"></script>
+				<script src="js/OrbitControls.js"></script>
+				<script>
+				 //CSVファイルを読み込む関数getCSV()の定義
+				 /* var dataset = [];*/
+				 function getCSV(){
+						 return new Promise((resolve,reject) => {
+								 var req = new XMLHttpRequest();	 
+								 req.open("get", "data/data_sub04_mix4.csv", true);
+								 req.send(null); // HTTPリクエストの発行
+								 req.onload = function(){
+										 let data = convertCSVtoArray(req.responseText);
+										 console.log("dataset@getSCV",data);
+										 resolve(data);
+								 }
+						 });
+				 }
+				 // 読み込んだCSVデータを二次元配列に変換する関数convertCSVtoArray()の定義
+				 function convertCSVtoArray(str){ // 読み込んだCSVデータが文字列として渡される
+						 var result = []; // 最終的な二次元配列を入れるための配列
+						 var tmp = str.split("\n"); // 改行を区切り文字として行を要素とした配列を生成
+
+						 // 各行ごとにカンマで区切った文字列を要素とした二次元配列を生成
+						 for(var i=0;i<tmp.length-1;++i){
+								 result[i] = tmp[i+1].split(',');
+						 }
+						 console.log("result@convertCSVtoArray",result);
+						 return result;
+				 }
+				 // header行を削除
+				 function removeHeader(data){
+						 return new Promise((resolve,reject) => {
+								 var result = [];
+								 for (var i=0;i<data.length-1;i++){
+										 result[i] = data[i].slice(3,);
+								 }
+								 resolve(result)
+						 });
+				 }
+				 // Numberに変換
+				 function convertNumber(data){
+						 return new Promise((resolve,reject) => {
+								 // Numberに変換
+								 data = data.map(function (element) { return element.map(function(ele){ return Number(ele); })});
+								 resolve(data);
+						 });
+				 }
 				 
-			 }
-		 }
+				 // シーン
+				 var scene = new THREE.Scene();
 
-		 // 読み込んだCSVデータを二次元配列に変換する関数convertCSVtoArray()の定義
-		 function convertCSVtoArray(str){ // 読み込んだCSVデータが文字列として渡される
-			 var result = []; // 最終的な二次元配列を入れるための配列
-			 var tmp = str.split("\n"); // 改行を区切り文字として行を要素とした配列を生成
+				 // レンダラー
+				 var renderer = new THREE.WebGLRenderer();
+				 renderer.setSize( window.innerWidth, window.innerHeight );
+				 document.body.appendChild( renderer.domElement );
 
-			 // 各行ごとにカンマで区切った文字列を要素とした二次元配列を生成
-			 for(var i=0;i<tmp.length-1;++i){
-				 result[i] = tmp[i+1].split(',');
-			 }
-			 console.log("result@convertCSVtoArray",result);
-			 // Numberに変換
-			 result.map(function (element) { return Number(element); });
-			 return result;
-		 }
-		 var dataset = getCSV(); //最初に実行される
-		 
-		 // シーン
-		 var scene = new THREE.Scene();
+				 // カメラ
+				 var camera = new THREE.PerspectiveCamera( 60, window.innerWidth / window.innerHeight, 1, 1000 );
+				 camera.position.set(0, 25, 20);
+				 camera.lookAt({x:0, y:0, z:0 });
 
-		 // レンダラー
-		 var renderer = new THREE.WebGLRenderer();
-		 renderer.setSize( window.innerWidth, window.innerHeight );
-		 document.body.appendChild( renderer.domElement );
+				 // マウスコントロール
+				 var controls = new THREE.OrbitControls(camera);
 
-		 // カメラ
-		 var camera = new THREE.PerspectiveCamera( 50, window.innerWidth / window.innerHeight, 1, 1000 );
-		 camera.position.set(0, 5, 20);
-		 camera.lookAt({x:0, y:0, z:0 });
+				 // ライト
+				 var directionalLight = new THREE.DirectionalLight('#ffffff', 1);
+				 directionalLight.position.set(0, 10, 10);
+				 scene.add(directionalLight);
 
-		 // マウスコントロール
-		 var controls = new THREE.OrbitControls(camera);
+				 // キューブ
+				 var cubeArray = [];
+				 var cubePosArray = [
+						 //[0,0,0,"#6002ee"], [10,0,0,"#90ee02"],[0,0,10,"#d602ee"],[10,0,10,"#ee6002"],
+						 [-5,0,-5,"#6002ee"], [5,0,-5,"#90ee02"],[-5,0,5,"#d602ee"],[5,0,5,"#ee6002"],
+				 ];
+				 for (let pos of cubePosArray) {		 
+						 var geometry = new THREE.BoxGeometry(4,2,5);
+						 var material = new THREE.MeshPhongMaterial( { color: pos[3]} );
+						 var cube = new THREE.Mesh( geometry, material );
+						 console.log(pos);
+						 cube.position.set(pos[0],pos[1],pos[2]);
+						 scene.add( cube );
+						 cubeArray.push(cube)
+				 }
+				 console.log(cubeArray)
 
-		 // ライト
-		 var directionalLight = new THREE.DirectionalLight('#ffffff', 1);
-		 directionalLight.position.set(0, 10, 10);
-		 scene.add(directionalLight);
+				 // Axis
+				 var axis = new THREE.AxisHelper(1000);
+				 axis.position.set(0,0,0);
+				 scene.add(axis);
 
-		 // キューブ
-		 var geometry = new THREE.BoxGeometry(4,4,2);
-		 var material = new THREE.MeshPhongMaterial( { color: '#ffffff' } );
-		 var cube = new THREE.Mesh( geometry, material );
-		 cube.position.set(-5, 0, 0);
-		 scene.add( cube );
-		 // キューブ2
-		 var material2 = new THREE.MeshPhongMaterial( { color: '#ffffee' } );
-		 var cube2 = new THREE.Mesh( geometry, material2 );
-		 cube2.position.set(5, 0, 0);
-		 scene.add( cube2 );
+				 // grid
+				 var cube_size = 1; // size of the cube
+				 var grid_count = 20; // number of grid division
+				 var grid_size = grid_count * cube_size;
+				 var grid = new THREE.GridHelper(grid_size, grid_count);
+				 grid.material.color = new THREE.Color(0xaaaaaa);
+				 console.log(grid.rotation)
+				 //grid.rotation.x = Math.PI/2;
+				 //grid.position.x = 5
+				 //grid.position.z = 5
+				 scene.add(grid);
 
-		 // grid
-		 var cube_size = 1; // size of the cube
-		 var grid_count = 10; // number of grid division
-		 var grid_size = grid_count * cube_size;
-		 var grid = new THREE.GridHelper(grid_size, grid_count);
-		 grid.material.color = new THREE.Color(0xaaaaaa);
-		 scene.add(grid);
+				 // Show Axis
+				 var line_size = cube_size;
+				 var add_line = (obj, end_pos, color) => {
+						 var start_pos = new THREE.Vector3(0,0,0);
+						 var g = new THREE.Geometry();
+						 g.vertices.push(start_pos);
+						 g.vertices.push(end_pos);
+						 var material = new THREE.LineBasicMaterial({linewitdh:2, color:color});
+						 var line = new THREE.Line(g, material);
+						 obj.add(line);
+				 }
+				 // add axis in cude
+				 var grid_half = grid_size / 3;
+				 for (let cube of cubeArray){
+						 add_line(cube, new THREE.Vector3(grid_half,0,0), "#ff0000"); // x: R
+						 add_line(cube, new THREE.Vector3(0,grid_half,0), "#00ff00"); // y: G
+						 add_line(cube, new THREE.Vector3(0,0,grid_half), "#0000ff"); // z: B
+				 } 
+				 
 
-		 // Show Axis
-		 var line_size = cube_size;
-		 var add_line = (obj, end_pos, color) => {
-			 var start_pos = new THREE.Vector3(0,0,0);
-			 var g = new THREE.Geometry();
-			 g.vertices.push(start_pos);
-			 g.vertices.push(end_pos);
-			 var material = new THREE.LineBasicMaterial({linewitdh:4, color:color});
-			 var line = new THREE.Line(g, material);
-			 obj.add(line);
-		 }
-		 // add axis in cude
-		 var grid_half = grid_size / 2;
-		 add_line(cube, new THREE.Vector3(grid_half,0,0), "#ff0000");
-		 add_line(cube, new THREE.Vector3(0,grid_half,0), "#00ff00");
-		 add_line(cube, new THREE.Vector3(0,0,grid_half), "#0000ff");
-		 
-		 
+				 
 
-		 
+				 // レンダリング
+				 var idx = 0;
+				 function render() {
+						 requestAnimationFrame(render);
+						 // cube
+						 /* cube.rotation.x = dataset[idx][0];
+								cube.rotation.y = dataset[idx][1];
+								cube.rotation.z = dataset[idx][2];*/
+						 //console.log(colNo);
+						 //console.log(cubeArray);
+						 //console.log(dataset);
+						 for (let i=0;i<4;i++) {
+								 // cube2
+								 cube = cubeArray[i];
+								 //console.log(i, cube);
+								 //console.log("row:", idx, dataset[idx], dataset[idx][0]);
+								 cube.rotation.x = dataset[idx][3*i];
+								 cube.rotation.z = dataset[idx][3*1+1];
+								 cube.rotation.y = dataset[idx][3*i+2];
+						 }
+						 controls.update();
+						 renderer.render(scene, camera);
+						 
+						 // update idx
+						 idx++;
+						 if(idx == dataset.length){
+								 idx = 0
+						 }
+				 }
 
-		 // レンダリング
-		 var idx = 0;
-		 function render() {
-			 requestAnimationFrame(render);
-			 //cube.rotation.x += 0.01;
-			 //cube.rotation.y += 0.05;
-			 // cube
-			 cube.rotation.x = dataset[idx][0];
-			 cube.rotation.y = dataset[idx][1];
-			 cube.rotation.z = dataset[idx][2];
-			 // cube2
-			 cube2.rotation.x = dataset[idx][0];
-			 cube2.rotation.y = dataset[idx][1];
-			 cube2.rotation.z = dataset[idx][2];
-
-			 controls.update();
-			 renderer.render(scene, camera);
-
-			 // update idx
-			 idx++;
-			 if(idx == dataset.length){
-				 idx = 0
-			 }
-		 }
-		 render();
-		</script>
-	</body>
+				 /* console.log("Strart");
+						var dataset = getCSV(); //最初に実行される
+						console.log(dataset);*/
+				 var dataset = [];
+				 getCSV().then((data) => {
+						 console.log(data);
+						 return removeHeader(data);
+				 }).then((data) => {
+						 console.log(data);
+						 return convertNumber(data);
+				 }).then((data) => {
+						 console.log(data);
+						 dataset = data
+						 render(dataset);
+				 }).catch((err) => {
+						 console.error(err);
+				 });
+				</script>
+		</body>
 </html>
