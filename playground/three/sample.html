@@ -21,7 +21,7 @@
 				 function getCSV(){
 						 return new Promise((resolve,reject) => {
 								 var req = new XMLHttpRequest();	 
-								 req.open("get", "data/data_sub04_mix4.csv", true);
+								 req.open("get", "data/data_sub04_mix4_ekf.csv", true);
 								 req.send(null); // HTTPリクエストの発行
 								 req.onload = function(){
 										 let data = convertCSVtoArray(req.responseText);
@@ -86,7 +86,7 @@
 				 var cubeArray = [];
 				 var cubePosArray = [
 						 //[0,0,0,"#6002ee"], [10,0,0,"#90ee02"],[0,0,10,"#d602ee"],[10,0,10,"#ee6002"],
-						 [-5,0,-5,"#6002ee"], [5,0,-5,"#90ee02"],[-5,0,5,"#d602ee"],[5,0,5,"#ee6002"],
+						 [-12,0,0,"#6002ee"], [-4,0,0,"#90ee02"],[4,0,0,"#d602ee"],[12,0,0,"#ee6002"],
 				 ];
 				 for (let pos of cubePosArray) {		 
 						 var geometry = new THREE.BoxGeometry(4,2,5);
