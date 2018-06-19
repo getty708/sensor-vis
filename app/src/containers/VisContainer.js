@@ -1,7 +1,9 @@
 import React from "react"
 import ReactDOM from "react-dom"
 import {bindActionCreators} from 'redux'
-import {connect} from "react-redux"
+import {compose, connect} from "react-redux"
+//import SizeMe from 'react-sizeme'
+
 
 // Three.js
 import React3 from 'react-three-renderer';
@@ -13,9 +15,26 @@ import * as actions from "../actions"
 // Constants
 const pi = Math.PI;
 const rad = pi / 180;
-const width = window.innerWidth;
-const height = window.innerHeight;
 
+
+const Device = ({rotation, position}) => {
+    return(
+        <mesh
+           rotation={rotation}
+           position={position}
+           >
+          <boxGeometry
+             width={4}
+             height={2}
+             depth={5}
+             />
+          <meshNormalMaterial
+             transparent={false}
+             visible={true}
+             />
+        </mesh>
+    );
+};
 
 
 class VisContainer extends React.Component {
@@ -24,6 +43,8 @@ class VisContainer extends React.Component {
         this.cameraPosition = new THREE.Vector3(0, 25,20);
         this.state = {
             cubeRotation: new THREE.Euler(),
+            height: 400,
+            width: 800,
         };
 
         this._onAnimate = () => {
@@ -36,22 +57,16 @@ class VisContainer extends React.Component {
             });
         };        
     }
+
     
-    
-    // componentDidMount() {
-    //     this.props.fetchPhotosWithTexture();
-    // }
-
-
-
-
     render() {
+        const {width, height} = this.state;
+
         return (
             <React3
                mainCamera="camera"
                width={width}
                height={height}
-
                onAnimate={this._onAnimate}
                >
               <scene>
@@ -65,19 +80,26 @@ class VisContainer extends React.Component {
                    position={this.cameraPosition}
                    />
                 <gridHelper size={20} step={10} />                
-                <mesh
+                <Device
+                   uniqeName="Device1"
                    rotation={this.state.cubeRotation}
-                   >
-                  <boxGeometry
-                     width={4}
-                     height={2}
-                     depth={5}
-                     />
-                  <meshNormalMaterial
-                     transparent={false}
-                     visible={true}
-                     />
-                </mesh>
+                   position={new THREE.Vector3(-10,0,0)}
+                   />
+                <Device
+                   uniqeName="Device2"
+                   rotation={this.state.cubeRotation}
+                   position={new THREE.Vector3(0,0,0)}
+                   />
+                <Device
+                   uniqeName="Device3"
+                   rotation={this.state.cubeRotation}
+                   position={new THREE.Vector3(10,0,0)}
+                   />
+                <Device
+                   uniqeName="Device4"
+                   rotation={this.state.cubeRotation}
+                   position={new THREE.Vector3(20,0,0)}
+                   />                 
               </scene>
             </React3>            
         );
@@ -103,3 +125,11 @@ export default connect(
     mapStateToProps,
     mapDispatchToProps,
 )(VisContainer);
+// export default sizeMe({ monitorHeight: true })(connectedContainer);
+// export default compose(
+//     SizeMe(),
+//     connect(
+//         mapStateToProps,
+//         mapDispatchToProps,
+//     )
+// )(VisContainer);

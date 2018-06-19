@@ -12,7 +12,13 @@ class App extends React.Component {
               <div className="content">
                 <h1>Hello, world!</h1>
               </div>
-              <VisContainer />
+              <div className="row">
+                <div className="col-6">
+                  <VisContainer />
+                </div>
+                <div className="col-6">
+                </div>
+              </div>
             </div>
         )
     }
