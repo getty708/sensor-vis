@@ -9,9 +9,10 @@ import rootSaga from "../sagas"
 export default function configureStore(initialState) {
     const sagaMiddleware = createSagaMiddleware();
     const store = createStore(
-        combineReducers({
-            rootReducer,
-        }),
+        rootReducer,
+        // combineReducers({
+        //     rootReducer,
+        // }),        
         initialState,
         applyMiddleware(
             sagaMiddleware,

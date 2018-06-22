@@ -9,12 +9,6 @@ import {Provider} from 'react-redux'
 const store = configureStore()
 
 window.React = React;
-// ReactDOM.render(
-//     <Provider store={store} >
-//       <App />
-//     </Provider>,
-//     document.getElementById("root")
-// )
 ReactDOM.render(
     <Provider store={store} >
       <App />

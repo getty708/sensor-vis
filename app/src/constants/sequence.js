@@ -1,0 +1,9 @@
+// default
+export const USER_INCREMENT = "USER_INCREMENT";
+export const USER_DECREMENT = "USER_DECREMENT";
+
+// Sequence
+export const USER_GET_SEQ   = "USER_GET_SEQ";
+export const SYS_REQUEST_SEQ  = "SYS_FETCH_SEQ";
+export const SYS_RECIEVE_SEQ_SUCCESS = "SYS_RECIEVE_SEQ_SUCCESS";
+export const SYS_RECIEVE_SEQ_FAILED = "SYS_RECIEVE_SEQ_FAILED";

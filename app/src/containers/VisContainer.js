@@ -9,42 +9,32 @@ import {compose, connect} from "react-redux"
 import React3 from 'react-three-renderer';
 import * as THREE from 'three';
 
-
-import * as actions from "../actions"
+// My Module
+import * as actions from "../actions/sequence"
+import {Device} from '../components/Three'
 
 // Constants
 const pi = Math.PI;
 const rad = pi / 180;
 
 
-const Device = ({rotation, position}) => {
-    return(
-        <mesh
-           rotation={rotation}
-           position={position}
-           >
-          <boxGeometry
-             width={4}
-             height={2}
-             depth={5}
-             />
-          <meshNormalMaterial
-             transparent={false}
-             visible={true}
-             />
-        </mesh>
-    );
-};
+
 
 
 class VisContainer extends React.Component {
     constructor(props, context) {
         super(props, context)
+
+        // Init Device config
+        const {seqArray} = this.props.seq;
+
+        // Init State
         this.cameraPosition = new THREE.Vector3(0, 25,20);
         this.state = {
             cubeRotation: new THREE.Euler(),
             height: 400,
             width: 800,
+            seqArray: seqArray,
         };
 
         this._onAnimate = () => {
@@ -59,8 +49,10 @@ class VisContainer extends React.Component {
     }
 
     
+    
     render() {
-        const {width, height} = this.state;
+        const {width, height, seqArray} = this.state;
+        
 
         return (
             <React3
@@ -79,27 +71,15 @@ class VisContainer extends React.Component {
                    lookAt={new THREE.Vector3(0, 0, 0)}
                    position={this.cameraPosition}
                    />
-                <gridHelper size={20} step={10} />                
-                <Device
-                   uniqeName="Device1"
-                   rotation={this.state.cubeRotation}
-                   position={new THREE.Vector3(-10,0,0)}
-                   />
-                <Device
-                   uniqeName="Device2"
-                   rotation={this.state.cubeRotation}
-                   position={new THREE.Vector3(0,0,0)}
-                   />
-                <Device
-                   uniqeName="Device3"
-                   rotation={this.state.cubeRotation}
-                   position={new THREE.Vector3(10,0,0)}
-                   />
-                <Device
-                   uniqeName="Device4"
-                   rotation={this.state.cubeRotation}
-                   position={new THREE.Vector3(20,0,0)}
-                   />                 
+                <gridHelper size={20} step={10} />
+                { seqArray.map(seq => {
+                    return <Device                                 
+                                  key={seq.tag}
+                                  rotation={this.state.cubeRotation}
+                                  position={seq.position}
+                                  />
+                    })                    
+                }
               </scene>
             </React3>            
         );
@@ -108,28 +88,17 @@ class VisContainer extends React.Component {
 
 
 function mapStateToProps(state){
+    console.log(state);
     return {
-        visconfig: state.visconfig,
+        seq: state.sequenceReducer,
     }
 }
-
-
 function mapDispatchToProps(dispatch){
     return {
         actions: bindActionCreators(actions, dispatch),
-    }
+    };
 }
-
-
 export default connect(
     mapStateToProps,
     mapDispatchToProps,
 )(VisContainer);
-// export default sizeMe({ monitorHeight: true })(connectedContainer);
-// export default compose(
-//     SizeMe(),
-//     connect(
-//         mapStateToProps,
-//         mapDispatchToProps,
-//     )
-// )(VisContainer);

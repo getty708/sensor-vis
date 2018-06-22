@@ -1,9 +1,9 @@
-import {createReducer} from "redux-act"
-//import {List} from "immutable"
+import {combineReducers} from 'redux'
+import sequenceReducer from './sequence'
 
-const init = {
-    root: {}
-};
 
-const rootReducer = createReducer({}, init.root)
+const rootReducer = combineReducers({
+    sequenceReducer,
+})
+
 export default rootReducer
