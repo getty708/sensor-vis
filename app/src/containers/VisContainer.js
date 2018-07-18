@@ -13,6 +13,7 @@ import * as THREE from 'three';
 import * as actions from "../actions/sequence"
 import {Device} from '../components/Three'
 
+
 // Constants
 const pi = Math.PI;
 const rad = pi / 180;
@@ -46,6 +47,13 @@ class VisContainer extends React.Component {
                 ),
             });
         };        
+    }
+
+    componentWillMount(){
+        console.log("componentWillMount")
+        console.log(this.props.actions);
+        console.log(actions);
+        this.props.actions.sysRequestSeq("./data/data_sub04_mix4.csv");
     }
 
     
@@ -88,14 +96,14 @@ class VisContainer extends React.Component {
 
 
 function mapStateToProps(state){
-    console.log(state);
+    // console.log(state);
     return {
         seq: state.sequenceReducer,
     }
 }
 function mapDispatchToProps(dispatch){
     return {
-        actions: bindActionCreators(actions, dispatch),
+        actions: bindActionCreators(actions.default, dispatch),
     };
 }
 export default connect(
