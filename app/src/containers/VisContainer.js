@@ -11,7 +11,7 @@ import * as THREE from 'three';
 
 // My Module
 import * as actions from "../actions/sequence"
-import {Device} from '../components/Three'
+import {ThreeMain, Device} from '../components/Three'
 
 
 // Constants
@@ -53,50 +53,66 @@ class VisContainer extends React.Component {
         console.log("componentWillMount")
         console.log(this.props.actions);
         console.log(actions);
-        this.props.actions.sysRequestSeq("./data/data_sub04_mix4.csv");
+        this.props.actions.sysRequestSeq("200Hz", "./data/data_sub04_mix4.csv");
+        // this.props.actions.sysRecieveSeqSuccess("200Hz", [0,0,0,]);
     }
 
-    
     
     render() {
-        const {width, height, seqArray} = this.state;
+        const {seqArray} = this.state; 
+        const {seqList}  = this.props.seq;
+        console.log(seqList);
         
-
         return (
-            <React3
-               mainCamera="camera"
-               width={width}
-               height={height}
-               onAnimate={this._onAnimate}
-               >
-              <scene>
-                <perspectiveCamera
-                   name="camera"
-                   fov={60}
-                   aspect={width / height}
-                   near={1}
-                   far={1000}
-                   lookAt={new THREE.Vector3(0, 0, 0)}
-                   position={this.cameraPosition}
-                   />
-                <gridHelper size={20} step={10} />
-                { seqArray.map(seq => {
-                    return <Device                                 
-                                  key={seq.tag}
-                                  rotation={this.state.cubeRotation}
-                                  position={seq.position}
-                                  />
-                    })                    
-                }
-              </scene>
-            </React3>            
-        );
+            <div className="col-12">
+              <ThreeMain
+                 seqArray={seqArray}
+                 seqEnd={1000}
+                 seqList={seqList}
+                 />
+            </div>
+        )
     }
+    
+    // render() {
+    //     const {width, height, seqArray} = this.state;
+    //     // console.log(this.props);
+
+    //     return (
+    //         <React3
+    //            mainCamera="camera"
+    //            width={width}
+    //            height={height}
+    //            onAnimate={this._onAnimate}
+    //            >
+    //           <scene>
+    //             <perspectiveCamera
+    //                name="camera"
+    //                fov={60}
+    //                aspect={width / height}
+    //                near={1}
+    //                far={1000}
+    //                lookAt={new THREE.Vector3(0, 0, 0)}
+    //                position={this.cameraPosition}
+    //                />
+    //             <gridHelper size={20} step={10} />
+    //             { seqArray.map(seq => {
+    //                 return <Device                                 
+    //                               key={seq.tag}
+    //                               rotation={this.state.cubeRotation}
+    //                               position={seq.position}
+    //                               />
+    //                 })                    
+    //             }
+    //           </scene>
+    //         </React3>            
+    //     );
+    // }
 }
 
 
 function mapStateToProps(state){
-    // console.log(state);
+    console.log(state);
     return {
         seq: state.sequenceReducer,
     }

@@ -17,7 +17,8 @@ function* runRequestSequence(action){
     try{
         const data = yield call(API.fetchSequence, action.payload.url);
         // console.log("data:", data);
-        yield put(ACT.sysRecieveSeqSuccess(data));
+        yield put(ACT.sysRecieveSeqSuccess(action.payload.seqType, data,));
+        console.log("Done !");
     }catch(error){
         console.error("error:",error);
         yield put(ACT.sysRecieveSeqFailed(error));

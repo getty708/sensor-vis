@@ -3,7 +3,7 @@ import ReactDOM from "react-dom"
 //import {Container,Raw,Col} from "reactstrap"
 
 import VisContainer from "./VisContainer"
-
+import Footer from "./Footer"
 
 class App extends React.Component {
     render(){
@@ -17,6 +17,7 @@ class App extends React.Component {
                   <VisContainer />
                 </div>
                 <div className="col-6">
+                  <Footer />
                 </div>
               </div>
             </div>
