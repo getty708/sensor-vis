@@ -1,4 +1,4 @@
-import {fork,call,put,takeLatest} from 'redux-saga/effects'
+import {fork,call,put,takeLatest,takeEvery} from 'redux-saga/effects'
 
 // Actions
 import * as types from '../constants/sequence'
@@ -27,7 +27,7 @@ function* runRequestSequence(action){
 
 
 function* handleRequestSequence(){
-    yield takeLatest(types.SYS_REQUEST_SEQ, runRequestSequence);
+    yield takeEvery(types.SYS_REQUEST_SEQ, runRequestSequence);
 }
 
 export {

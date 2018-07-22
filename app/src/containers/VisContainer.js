@@ -12,6 +12,7 @@ import * as THREE from 'three';
 // My Module
 import * as actions from "../actions/sequence"
 import {ThreeMain, Device} from '../components/Three'
+import ControlPanel from '../components/ControlPanel'
 
 
 // Constants
@@ -27,87 +28,52 @@ class VisContainer extends React.Component {
         super(props, context)
 
         // Init Device config
-        const {seqArray} = this.props.seq;
+        // const {seqArray} = this.props.seq;
 
-        // Init State
-        this.cameraPosition = new THREE.Vector3(0, 25,20);
-        this.state = {
-            cubeRotation: new THREE.Euler(),
-            height: 400,
-            width: 800,
-            seqArray: seqArray,
-        };
-
-        this._onAnimate = () => {
-            this.setState({
-                cubeRotation: new THREE.Euler(
-                    this.state.cubeRotation.x + 0.004,
-                    this.state.cubeRotation.y + 0.002,
-                    0
-                ),
-            });
-        };        
     }
 
     componentWillMount(){
         console.log("componentWillMount")
         console.log(this.props.actions);
         console.log(actions);
-        this.props.actions.sysRequestSeq("200Hz", "./data/data_sub04_mix4.csv");
+        this.props.actions.sysRequestSeq("200Hz", "./data/arm01_pose_ORG200Hz.csv");
+        this.props.actions.sysRequestSeq("100Hz", "./data/arm01_pose_ORG100Hz_[ORG200Hz].csv");
+        this.props.actions.sysRequestSeq("50Hz", "./data/arm01_pose_ORG50Hz_[ORG200Hz].csv");
+        
         // this.props.actions.sysRecieveSeqSuccess("200Hz", [0,0,0,]);
     }
 
     
     render() {
-        const {seqArray} = this.state; 
-        const {seqList}  = this.props.seq;
+        // const {seqArray} = this.; 
+        const {seqArray, seqList, control}  = this.props.seq;
+        let seqEnd = 0;
+        if (seqList["200Hz"]){
+            seqEnd = seqList["200Hz"].data.length;
+        }
         console.log(seqList);
+        const {userSwitchPlayStop} = this.props.actions;
         
         return (
-            <div className="col-12">
-              <ThreeMain
-                 seqArray={seqArray}
-                 seqEnd={1000}
-                 seqList={seqList}
-                 />
+            <div className="row">
+              <div className="col-12" >
+                <ThreeMain
+                   seqArray={seqArray}
+                   seqEnd={seqEnd}
+                   seq200Hz={seqList["200Hz"]}
+                   seq100Hz={seqList["100Hz"]}
+                   seq50Hz={seqList["50Hz"]}
+                   control={control}
+                   />
+                <div className="col-12" >              
+                  <ControlPanel
+                     switchPlayStop={userSwitchPlayStop}
+                     />
+                </div>                
+              </div>
             </div>
         )
     }
-    
-    // render() {
-    //     const {width, height, seqArray} = this.state;
-    //     // console.log(this.props);
-
-    //     return (
-    //         <React3
-    //            mainCamera="camera"
-    //            width={width}
-    //            height={height}
-    //            onAnimate={this._onAnimate}
-    //            >
-    //           <scene>
-    //             <perspectiveCamera
-    //                name="camera"
-    //                fov={60}
-    //                aspect={width / height}
-    //                near={1}
-    //                far={1000}
-    //                lookAt={new THREE.Vector3(0, 0, 0)}
-    //                position={this.cameraPosition}
-    //                />
-    //             <gridHelper size={20} step={10} />
-    //             { seqArray.map(seq => {
-    //                 return <Device                                 
-    //                               key={seq.tag}
-    //                               rotation={this.state.cubeRotation}
-    //                               position={seq.position}
-    //                               />
-    //                 })                    
-    //             }
-    //           </scene>
-    //         </React3>            
-    //     );
-    // }
 }
 
 

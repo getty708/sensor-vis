@@ -23,8 +23,18 @@ const initState = {
             fs:100,
             position: new THREE.Vector3(5,0,0),
         },
+        {
+            tag: "50Hz",
+            fs:50,
+            position: new THREE.Vector3(15,0,0),
+        },
     ],
     seqList: {},
+    control: {
+        play: true,
+        start: 0,
+        end: 60000,
+    }
 };
 
 export default (state=initState, action) => {
@@ -69,39 +79,20 @@ export default (state=initState, action) => {
             ...state,
             isFetching: false,
             isComplete: false,
-        }            
+        }
+    case types.USER_SWITCH_PLAY_STOP:
+        console.log("Reducer:USER_SWITCH_PLAY_STOP", action);
+        const newControl = {
+            ...state.control,
+            play: !state.control.play,
+        }
+        console.log(newControl);
+        return {
+            ...state,
+            control: newControl,
+        }        
     default:
         return state
   }
 }
-
-// export default handleActions({
-//     [actions.userIncrement] : (state, action) => ({
-//         ...state,
-//         seqNum:  state.seqNum + 1,
-//     }),
-//     [actions.userDecrement] : (state, action) => ({
-//         ...state,
-//         seqNum:  state.seqNum - 1,
-//     }),
-//     // [actions.SYS_FETCH_DATA]: (state, {payload}) => ({
-//     //     ...state,
-//     //     process: 1,
-//     // }),
-    
-
-//     // [actions.SYS_RECIEVE_SEQ_SUCCESS]: (state, action) => ({
-//     //     ...state,
-//     //     isFetching: false,
-//     //     isComplete: true,
-//     //     process: 2,
-//     //     // seqList: console.log("Reducer", action),
-//     // }),
-//     // [actions.SYS_RECIEVE_SEQ_FAILED]: (state, action) => ({
-//     //     ...state,
-//     //     isFetching: false,
-//     //     isComplete: false,
-//     //     process: 3,
-//     // }),
-// }, initState);
 

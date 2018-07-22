@@ -3,21 +3,25 @@ import ReactDOM from "react-dom"
 //import {Container,Raw,Col} from "reactstrap"
 
 import VisContainer from "./VisContainer"
+import Header from "./Header"
 import Footer from "./Footer"
 
 class App extends React.Component {
     render(){
         return (
-            <div className="container">
-              <div className="content">
-                <h1>Hello, world!</h1>
+            <div className="container-fluid">
+
+              <div className="content-fluid">
+                <Header/>
               </div>
-              <div className="row">
-                <div className="col-6">
-                  <VisContainer />
-                </div>
-                <div className="col-6">
-                  <Footer />
+              <div className="content">              
+                <div className="row">
+                  <div className="col-12">
+                    <VisContainer />
+                  </div>
+                  <div className="col-12">
+                    <Footer />
+                  </div>
                 </div>
               </div>
             </div>

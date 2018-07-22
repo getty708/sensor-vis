@@ -17,25 +17,42 @@ class ThreeMain extends React.Component {
         // Init State
         this.cameraPosition = new THREE.Vector3(0, 25,20);
         this.state = {
-            cubeRotation: new THREE.Euler(),
+            cubeRotation200Hz: new THREE.Euler(),
+            cubeRotation100Hz: new THREE.Euler(),
+            cubeRotation50Hz: new THREE.Euler(),
             height: 400,
             width: 800,
             time: 0,
         };
 
         this._onAnimate = () => {
-            const idx = this.state.time;
-            let rot = new THREE.Euler(0,0,0,0,)
-            if (this.props.seqList["200Hz"]){
-                const seq200 = this.props.seqList["200Hz"].data[idx]
-                // console.log(seq200);
-                rot = new THREE.Euler(seq200.roll,seq200.pitch, seq200.yaw,0);
-            }
-            this.setState({
-                cubeRotation: rot,
-                time: idx == this.props.seqEnd ? 0 : idx + 1
-            });
-        };   
+            // console.log(this.props.control);
+            if (this.props.control.play){
+                const idx = this.state.time;
+                let rot200Hz = new THREE.Euler(0,0,0,0,);
+                let rot100Hz = new THREE.Euler(0,0,0,0,);
+                let rot50Hz = new THREE.Euler(0,0,0,0,);
+                if (this.props.seq200Hz){
+                    const seq200 = this.props.seq200Hz.data[idx];
+                    rot200Hz = new THREE.Euler(seq200.roll,seq200.pitch, seq200.yaw,0);
+                }
+                if (this.props.seq100Hz){
+                    const seq100 = this.props.seq100Hz.data[idx];
+                    rot100Hz = new THREE.Euler(seq100.roll,seq100.pitch, seq100.yaw,0);
+                }
+                if (this.props.seq50Hz){
+                    const seq50 = this.props.seq50Hz.data[idx];
+                    rot50Hz = new THREE.Euler(seq50.roll,seq50.pitch, seq50.yaw,0);
+                }
+                
+                this.setState({
+                    cubeRotation200Hz: rot200Hz,
+                    cubeRotation100Hz: rot100Hz,
+                    cubeRotation50Hz:  rot50Hz,
+                    time: idx == this.props.seqEnd ? 0 : idx + 1
+                });
+            };
+        }
     }
     
     render() {
@@ -44,6 +61,7 @@ class ThreeMain extends React.Component {
         // console.log(this.props);
         const seq_200Hz = seqArray[0];
         const seq_100Hz = seqArray[1];
+        const seq_50Hz  = seqArray[2];
         
         return (
             <React3
@@ -65,14 +83,19 @@ class ThreeMain extends React.Component {
                 <gridHelper size={20} step={10} />
                 <Device                                 
                    key={seq_200Hz.tag}
-                   rotation={this.state.cubeRotation}
+                   rotation={this.state.cubeRotation200Hz}
                    position={seq_200Hz.position}
                    />
                 <Device                                 
                    key={seq_100Hz.tag}
-                   rotation={this.state.cubeRotation}
+                   rotation={this.state.cubeRotation100Hz}
                    position={seq_100Hz.position}
-                   />                 
+                   />
+                <Device                                 
+                   key={seq_50Hz.tag}
+                   rotation={this.state.cubeRotation50Hz}
+                   position={seq_50Hz.position}
+                   />                                 
               </scene>
             </React3>            
         );

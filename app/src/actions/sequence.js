@@ -28,4 +28,5 @@ export default createActions(
     },
     types.USER_DECREMENT,
     types.USER_INCREMENT,
+    types.USER_SWITCH_PLAY_STOP,
 )

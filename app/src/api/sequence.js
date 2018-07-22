@@ -8,7 +8,7 @@ function convertCSVtoArray(str){ // 読み込んだCSVデータが文字列と�
     var result = []; // 最終的な二次元配列を入れるための配列
     var tmp = str.split("\n"); // 改行を区切り文字として行を要素とした配列を生成
     // 各行ごとにカンマで区切った文字列を要素とした二次元配列を生成
-    for(var i=0;i<tmp.length-1;++i){
+    for(var i=0;i<tmp.length-2;++i){
         let row = tmp[i+1].split(',')
 	result[i] = {
             "time": row[0], "label": row[1], "label_id": Number(row[2]),
