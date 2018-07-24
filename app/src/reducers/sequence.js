@@ -16,18 +16,23 @@ const initState = {
         {
             tag: "200Hz",
             fs:200,
-            position: new THREE.Vector3(-5,0,0),
+            position: new THREE.Vector3(-15,0,0),
         },
         {
             tag: "100Hz",
             fs:100,
-            position: new THREE.Vector3(5,0,0),
+            position: new THREE.Vector3(-5,0,0),
         },
         {
             tag: "50Hz",
             fs:50,
-            position: new THREE.Vector3(15,0,0),
+            position: new THREE.Vector3(5,0,0),
         },
+        {
+            tag: "25Hz",
+            fs:25,
+            position: new THREE.Vector3(15,0,0),
+        },        
     ],
     seqList: {},
     control: {

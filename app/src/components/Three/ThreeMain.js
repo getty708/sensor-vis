@@ -47,15 +47,15 @@ class ThreeMain extends React.Component {
                 // }
                 if (this.props.seq200Hz){
                     const seq200 = this.props.seq200Hz.data[idx];
-                    rot200Hz = new THREE.Euler(seq200.roll,seq200.pitch, seq200.yaw,0);
+                    rot200Hz = new THREE.Euler(seq200.roll,0,seq200.pitch,);
                 }
                 if (this.props.seq100Hz){
                     const seq100 = this.props.seq100Hz.data[idx];
-                    rot100Hz = new THREE.Euler(seq100.roll,seq100.pitch, seq100.yaw,0);
+                    rot100Hz = new THREE.Euler(seq100.roll,0,seq100.pitch);
                 }
                 if (this.props.seq50Hz){
                     const seq50 = this.props.seq50Hz.data[idx];
-                    rot50Hz = new THREE.Euler(seq50.roll,seq50.pitch, seq50.yaw,0);
+                    rot50Hz = new THREE.Euler(seq50.roll,0,seq50.pitch,);
                 }                
                 this.setState({
                     cubeRotation200Hz: rot200Hz,
@@ -73,7 +73,8 @@ class ThreeMain extends React.Component {
         const {seqArray} = this.props;
         const seq_200Hz = seqArray[0];
         const seq_100Hz = seqArray[1];
-        const seq_50Hz  = seqArray[2];      
+        const seq_50Hz  = seqArray[2];
+        const seq_25Hz  = seqArray[3];      
         const {userSwitchPlayStop} = this.props.actions;      
         
         return (
@@ -113,7 +114,12 @@ class ThreeMain extends React.Component {
                        key={seq_50Hz.tag}
                        rotation={this.state.cubeRotation50Hz}
                        position={seq_50Hz.position}
-                       />                                 
+                       />
+                    <Device                                 
+                       key={seq_25Hz.tag}
+                       rotation={this.state.cubeRotation50Hz}
+                       position={seq_25Hz.position}
+                       />                            
                   </scene>
                 </React3>                                            
               </div>
