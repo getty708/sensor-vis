@@ -5,25 +5,25 @@ import ReactDOM from "react-dom"
 import VisContainer from "./VisContainer"
 import Header from "./Header"
 import Footer from "./Footer"
+import SideBar from './SideBar'
+
 
 class App extends React.Component {
     render(){
         return (
-            <div className="container-fluid">
-
-              <div className="content-fluid">
-                <Header/>
-              </div>
-              <div className="content">              
+            <div >
+              <Header/>
+              <div className="container-fluid">
                 <div className="row">
-                  <div className="col-12">
-                    <VisContainer />
+                  <div className="col-2 bg-light">
+                    <SideBar />
                   </div>
-                  <div className="col-12">
-                    <Footer />
+                  <div className="col-10">                              
+                    <VisContainer />
                   </div>
                 </div>
               </div>
+              <Footer />
             </div>
         )
     }

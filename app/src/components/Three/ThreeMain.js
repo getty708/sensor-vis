@@ -5,6 +5,7 @@ import React3 from 'react-three-renderer';
 import * as THREE from 'three';
 
 import Device from './Device'
+import ControlPanel from './ControlPanel'
 
 
 class ThreeMain extends React.Component {
@@ -32,6 +33,18 @@ class ThreeMain extends React.Component {
                 let rot200Hz = new THREE.Euler(0,0,0,0,);
                 let rot100Hz = new THREE.Euler(0,0,0,0,);
                 let rot50Hz = new THREE.Euler(0,0,0,0,);
+                // if (this.props.seq200Hz){
+                //     const seq200 = this.props.seq200Hz.data[idx];
+                //     rot200Hz = new THREE.Euler(seq200.roll,seq200.pitch, seq200.yaw,0);
+                // }
+                // if (this.props.seq100Hz){
+                //     const seq100 = this.props.seq100Hz.data[idx];
+                //     rot100Hz = new THREE.Euler(seq100.roll,seq100.pitch, seq100.yaw,0);
+                // }
+                // if (this.props.seq50Hz){
+                //     const seq50 = this.props.seq50Hz.data[idx];
+                //     rot50Hz = new THREE.Euler(seq50.roll,seq50.pitch, seq50.yaw,0);
+                // }
                 if (this.props.seq200Hz){
                     const seq200 = this.props.seq200Hz.data[idx];
                     rot200Hz = new THREE.Euler(seq200.roll,seq200.pitch, seq200.yaw,0);
@@ -43,8 +56,7 @@ class ThreeMain extends React.Component {
                 if (this.props.seq50Hz){
                     const seq50 = this.props.seq50Hz.data[idx];
                     rot50Hz = new THREE.Euler(seq50.roll,seq50.pitch, seq50.yaw,0);
-                }
-                
+                }                
                 this.setState({
                     cubeRotation200Hz: rot200Hz,
                     cubeRotation100Hz: rot100Hz,
@@ -56,48 +68,61 @@ class ThreeMain extends React.Component {
     }
     
     render() {
+        // console.log(this.props);
         const {width, height,} = this.state;
         const {seqArray} = this.props;
-        // console.log(this.props);
         const seq_200Hz = seqArray[0];
         const seq_100Hz = seqArray[1];
-        const seq_50Hz  = seqArray[2];
+        const seq_50Hz  = seqArray[2];      
+        const {userSwitchPlayStop} = this.props.actions;      
         
         return (
-            <React3
-               mainCamera="camera"
-               width={width}
-               height={height}
-               onAnimate={this._onAnimate}
-               >
-              <scene>
-                <perspectiveCamera
-                   name="camera"
-                   fov={60}
-                   aspect={width / height}
-                   near={1}
-                   far={1000}
-                   lookAt={new THREE.Vector3(0, 0, 0)}
-                   position={this.cameraPosition}
-                   />
-                <gridHelper size={20} step={10} />
-                <Device                                 
-                   key={seq_200Hz.tag}
-                   rotation={this.state.cubeRotation200Hz}
-                   position={seq_200Hz.position}
-                   />
-                <Device                                 
-                   key={seq_100Hz.tag}
-                   rotation={this.state.cubeRotation100Hz}
-                   position={seq_100Hz.position}
-                   />
-                <Device                                 
-                   key={seq_50Hz.tag}
-                   rotation={this.state.cubeRotation50Hz}
-                   position={seq_50Hz.position}
-                   />                                 
-              </scene>
-            </React3>            
+            <div className="card">
+              <div className="card-header">
+                3D View | 200 Hz, 100 HZ, 50Hz
+              </div>
+              <div className="card-body">
+                <React3
+                   mainCamera="camera"
+                   width={width}
+                   height={height}
+                   onAnimate={this._onAnimate}
+                   >
+                  <scene>
+                    <perspectiveCamera
+                       name="camera"
+                       fov={60}
+                       aspect={width / height}
+                       near={1}
+                       far={1000}
+                       lookAt={new THREE.Vector3(0, 0, 0)}
+                       position={this.cameraPosition}
+                       />
+                    <gridHelper size={20} step={10} />
+                    <Device                                 
+                       key={seq_200Hz.tag}
+                       rotation={this.state.cubeRotation200Hz}
+                       position={seq_200Hz.position}
+                       />
+                    <Device                                 
+                       key={seq_100Hz.tag}
+                       rotation={this.state.cubeRotation100Hz}
+                       position={seq_100Hz.position}
+                       />
+                    <Device                                 
+                       key={seq_50Hz.tag}
+                       rotation={this.state.cubeRotation50Hz}
+                       position={seq_50Hz.position}
+                       />                                 
+                  </scene>
+                </React3>                                            
+              </div>
+              <div className="card-footer text-muted">
+                <ControlPanel
+                   switchPlayStop={userSwitchPlayStop}
+                   />                
+              </div>
+            </div>            
         );
     }
 }

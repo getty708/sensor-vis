@@ -22,19 +22,26 @@ const rad = pi / 180;
 
 
 
-class Footer extends React.Component {
+class SideBar extends React.Component {
    
     render() {
         console.log(this.props);
         
         return (
-            <div className="container-fluid bg-secondary">
-              <div className="row">              
-                <div className="col-12 text-white text-right" >
-                  <p>Sensor Visualization Tool-Kit</p>
+            <div className="row py-3">
+              <div className="col-12" >
+                <h5>Settings</h5>
+              </div>
+              <div className="col-12" >
+                <label for="basic-url"># of Sequence</label>
+                <div className="btn-group btn-group-sm mx-2" role="group">
+                  <button type="button" className="btn btn-sm btn-outline-primary"
+                          id="increment" onClick={() => this.props.actions.userIncrement()} >+</button>
+                  <button id="decrement" className="btn btn-sm  btn-outline-primary"
+                          onClick={() => this.props.actions.userDecrement()}>-</button>           
+                </div>
                 </div>
               </div>
-            </div>
         );
     }
 }
@@ -53,4 +60,4 @@ function mapDispatchToProps(dispatch){
 export default connect(
     mapStateToProps,
     mapDispatchToProps,
-)(Footer);
+)(SideBar);

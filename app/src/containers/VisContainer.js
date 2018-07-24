@@ -12,7 +12,7 @@ import * as THREE from 'three';
 // My Module
 import * as actions from "../actions/sequence"
 import {ThreeMain, Device} from '../components/Three'
-import ControlPanel from '../components/ControlPanel'
+// import ControlPanel from '../components/ControlPanel'
 
 
 // Constants
@@ -55,7 +55,7 @@ class VisContainer extends React.Component {
         const {userSwitchPlayStop} = this.props.actions;
         
         return (
-            <div className="row">
+            <div className="row py-3">
               <div className="col-12" >
                 <ThreeMain
                    seqArray={seqArray}
@@ -64,11 +64,10 @@ class VisContainer extends React.Component {
                    seq100Hz={seqList["100Hz"]}
                    seq50Hz={seqList["50Hz"]}
                    control={control}
+                   actions={this.props.actions}
                    />
                 <div className="col-12" >              
-                  <ControlPanel
-                     switchPlayStop={userSwitchPlayStop}
-                     />
+
                 </div>                
               </div>
             </div>
