@@ -21,6 +21,7 @@ class ThreeMain extends React.Component {
             cubeRotation200Hz: new THREE.Euler(),
             cubeRotation100Hz: new THREE.Euler(),
             cubeRotation50Hz: new THREE.Euler(),
+            cubeRotation25Hz: new THREE.Euler(),
             height: 400,
             width: 800,
             time: 0,
@@ -33,6 +34,7 @@ class ThreeMain extends React.Component {
                 let rot200Hz = new THREE.Euler(0,0,0,0,);
                 let rot100Hz = new THREE.Euler(0,0,0,0,);
                 let rot50Hz = new THREE.Euler(0,0,0,0,);
+                let rot25Hz = new THREE.Euler(0,0,0,0,);
                 // if (this.props.seq200Hz){
                 //     const seq200 = this.props.seq200Hz.data[idx];
                 //     rot200Hz = new THREE.Euler(seq200.roll,seq200.pitch, seq200.yaw,0);
@@ -56,11 +58,16 @@ class ThreeMain extends React.Component {
                 if (this.props.seq50Hz){
                     const seq50 = this.props.seq50Hz.data[idx];
                     rot50Hz = new THREE.Euler(seq50.roll,0,seq50.pitch,);
-                }                
+                }
+                if (this.props.seq25Hz){
+                    const seq25 = this.props.seq25Hz.data[idx];
+                    rot25Hz = new THREE.Euler(seq25.roll,0,seq25.pitch,);
+                }                                
                 this.setState({
                     cubeRotation200Hz: rot200Hz,
                     cubeRotation100Hz: rot100Hz,
                     cubeRotation50Hz:  rot50Hz,
+                    cubeRotation25Hz:  rot25Hz,                    
                     time: idx == this.props.seqEnd ? 0 : idx + 1
                 });
             };
@@ -74,7 +81,7 @@ class ThreeMain extends React.Component {
         const seq_200Hz = seqArray[0];
         const seq_100Hz = seqArray[1];
         const seq_50Hz  = seqArray[2];
-        const seq_25Hz  = seqArray[3];      
+        const seq_25Hz  = seqArray[3];
         const {userSwitchPlayStop} = this.props.actions;      
         
         return (
@@ -117,9 +124,9 @@ class ThreeMain extends React.Component {
                        />
                     <Device                                 
                        key={seq_25Hz.tag}
-                       rotation={this.state.cubeRotation50Hz}
+                       rotation={this.state.cubeRotation25Hz}
                        position={seq_25Hz.position}
-                       />                            
+                       />                                                
                   </scene>
                 </React3>                                            
               </div>

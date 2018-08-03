@@ -36,14 +36,14 @@ class VisContainer extends React.Component {
         console.log("componentWillMount")
         console.log(this.props.actions);
         console.log(actions);
-        this.props.actions.sysRequestSeq("200Hz", "./data/arm01_pose_ORG200Hz.csv");
-        this.props.actions.sysRequestSeq("100Hz", "./data/arm01_pose_ORG100Hz_[ORG200Hz].csv");
-        this.props.actions.sysRequestSeq("50Hz", "./data/arm01_pose_ORG50Hz_[ORG200Hz].csv");
-        this.props.actions.sysRequestSeq("25Hz", "./data/arm01_pose_ORG25Hz_[ORG200Hz].csv");
-        
+        this.props.actions.sysRequestSeq("200Hz", "./data/arm04_pose_ORG200Hz_Q.csv");
+        this.props.actions.sysRequestSeq("100Hz", "./data/arm04_pose2_LR100Hz_Q.csv");
+        this.props.actions.sysRequestSeq("50Hz", "./data/arm04_pose2_LR50Hz_Q.csv");
+        this.props.actions.sysRequestSeq("25Hz", "./data/arm04_pose2_LR25Hz_Q.csv");
+        // this.props.actions.sysRequestSeq("50Hz", "./data/arm01_pose_ORG50Hz_[ORG200Hz].csv");
+        // this.props.actions.sysRequestSeq("25Hz", "./data/arm01_pose_ORG25Hz_[ORG200Hz].csv");  
         // this.props.actions.sysRecieveSeqSuccess("200Hz", [0,0,0,]);
     }
-
     
     render() {
         // const {seqArray} = this.; 
