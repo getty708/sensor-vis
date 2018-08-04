@@ -36,10 +36,12 @@ class VisContainer extends React.Component {
         console.log("componentWillMount")
         console.log(this.props.actions);
         console.log(actions);
-        this.props.actions.sysRequestSeq("100HzS", "./data/arm04_pose_ORG100Hz_Q100s.csv");
-        this.props.actions.sysRequestSeq("50HzS", "./data/arm04_pose2_LR50Hz_Q100s.csv");
-        this.props.actions.sysRequestSeq("200Hz", "./data/arm04_pose_ORG200Hz_Q.csv");
-        this.props.actions.sysRequestSeq("100Hz", "./data/arm04_pose2_LR100Hz_Q.csv");
+        // this.props.actions.sysRequestSeq("SEQ1", "./data/pose202_pose_ORG200Hz.csv");
+        // this.props.actions.sysRequestSeq("SEQ2", "./data/pose202_pose2_LR100Hz.csv");
+        this.props.actions.sysRequestSeq("SEQ1", "./data/pose203_pose_ORG200Hz.csv");
+        this.props.actions.sysRequestSeq("SEQ2", "./data/pose203_pose2_LR100Hz.csv");
+        // this.props.actions.sysRequestSeq("SEQ3", "./data/arm04_pose_ORG200Hz_Q.csv");
+        // this.props.actions.sysRequestSeq("SEQ4", "./data/arm04_pose2_LR100Hz_Q.csv");
         
         // this.props.actions.sysRequestSeq("50Hz", "./data/arm04_pose2_LR50Hz_Q.csv");
         // this.props.actions.sysRequestSeq("25Hz", "./data/arm04_pose2_LR25Hz_Q.csv");
@@ -52,8 +54,8 @@ class VisContainer extends React.Component {
         // const {seqArray} = this.; 
         const {seqArray, seqList, control}  = this.props.seq;
         let seqEnd = 0;
-        if (seqList["100HzS"]){
-            seqEnd = seqList["100HzS"].data.length;
+        if (seqList["SEQ1"]){
+            seqEnd = seqList["SEQ1"].data.length;
         }
         console.log(seqList);
         const {userSwitchPlayStop} = this.props.actions;
@@ -64,10 +66,10 @@ class VisContainer extends React.Component {
                 <ThreeMain
                    seqArray={seqArray}
                    seqEnd={seqEnd}
-                   seq1={seqList["100HzS"]}
-                   seq2={seqList["50HzS"]}
-                   seq3={seqList["200Hz"]}
-                   seq4={seqList["100Hz"]}
+                   seq1={seqList["SEQ1"]}
+                   seq2={seqList["SEQ2"]}
+                   seq3={seqList["SEQ3"]}
+                   seq4={seqList["SEQ4"]}
                    control={control}
                    actions={this.props.actions}
                    />
