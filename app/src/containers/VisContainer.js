@@ -38,8 +38,8 @@ class VisContainer extends React.Component {
         console.log(actions);
         // this.props.actions.sysRequestSeq("SEQ1", "./data/pose202_pose_ORG200Hz.csv");
         // this.props.actions.sysRequestSeq("SEQ2", "./data/pose202_pose2_LR100Hz.csv");
-        this.props.actions.sysRequestSeq("SEQ1", "./data/pose203_pose_ORG200Hz.csv");
-        this.props.actions.sysRequestSeq("SEQ2", "./data/pose203_pose2_LR100Hz.csv");
+        // this.props.actions.sysRequestSeq("SEQ1", "./data/pose203_pose_ORG200Hz.csv");
+        // this.props.actions.sysRequestSeq("SEQ2", "./data/pose203_pose2_LR100Hz.csv");
         // this.props.actions.sysRequestSeq("SEQ3", "./data/arm04_pose_ORG200Hz_Q.csv");
         // this.props.actions.sysRequestSeq("SEQ4", "./data/arm04_pose2_LR100Hz_Q.csv");
         
@@ -48,6 +48,8 @@ class VisContainer extends React.Component {
         // this.props.actions.sysRequestSeq("50Hz", "./data/arm01_pose_ORG50Hz_[ORG200Hz].csv");
         // this.props.actions.sysRequestSeq("25Hz", "./data/arm01_pose_ORG25Hz_[ORG200Hz].csv");  
         // this.props.actions.sysRecieveSeqSuccess("200Hz", [0,0,0,]);
+        this.props.actions.sysRequestSeq("SEQ1", "./data/pose203_pose_HR200Hz.csv");
+	this.props.actions.sysRequestSeq("SEQ2", "./data/pose203_pose_HR200Hz.v2.csv");
     }
     
     render() {
