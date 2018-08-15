@@ -24,4 +24,4 @@ services:
     ports:
       - "3333:80"
     volumes:
-      - ./playground:/usr/local/apache2/htdocs/
+      - ./app/dist:/usr/local/apache2/htdocs/
