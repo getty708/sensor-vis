@@ -19,9 +19,3 @@ services:
       # - ./app/webpack/:/app/webpack:z
       - ./app:/app:z
     tty: true
-  client:
-    image: httpd:latest
-    ports:
-      - "3333:80"
-    volumes:
-      - ./app/dist:/usr/local/apache2/htdocs/
