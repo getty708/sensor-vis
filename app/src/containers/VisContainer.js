@@ -48,8 +48,11 @@ class VisContainer extends React.Component {
         // this.props.actions.sysRequestSeq("50Hz", "./data/arm01_pose_ORG50Hz_[ORG200Hz].csv");
         // this.props.actions.sysRequestSeq("25Hz", "./data/arm01_pose_ORG25Hz_[ORG200Hz].csv");  
         // this.props.actions.sysRecieveSeqSuccess("200Hz", [0,0,0,]);
-        this.props.actions.sysRequestSeq("SEQ1", "./data/pose203_pose_HR200Hz.csv");
-	this.props.actions.sysRequestSeq("SEQ2", "./data/pose203_pose_HR200Hz.v2.csv");
+        // this.props.actions.sysRequestSeq("SEQ1", "./data/pose203_pose_HR200Hz.csv");
+	// this.props.actions.sysRequestSeq("SEQ2", "./data/pose203_pose_HR200Hz.v2.csv");
+        this.props.actions.sysRequestSeq("SEQ1", "./data/cv2Arm10_pose_HR100Hz.csv");
+        this.props.actions.sysRequestSeq("SEQ2", "./data/cv2Arm10_pose_SR100Hz.csv");	
+        this.props.actions.sysRequestSeq("SEQ3", "./data/cv2Arm10_pose_LR100Hz.csv");
     }
     
     render() {
@@ -71,7 +74,6 @@ class VisContainer extends React.Component {
                    seq1={seqList["SEQ1"]}
                    seq2={seqList["SEQ2"]}
                    seq3={seqList["SEQ3"]}
-                   seq4={seqList["SEQ4"]}
                    control={control}
                    actions={this.props.actions}
                    />
