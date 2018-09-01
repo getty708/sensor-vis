@@ -87,41 +87,59 @@ class ThreeMain extends React.Component {
         };
         const errTitle = {
             ...labelHR,
-	    top: '370px',            
-            left: '240px',            
+	    top: '360px',            
+            left: '460px',            
         };
         const errRoll = {
             ...labelHR,
-	    top: '330px',            
-            left: '230px',
-            fontSize: '1.5em',            
+	    top: '300px',            
+            left: '330px',
+            fontSize: '2em',
+            color: '#BDBDBD',            
         };        
         const errPitch = {
             ...labelHR,
-	    top: '330px',            
-            left: '350px',
-            fontSize: '1.5em',            
+	    top: '220px',            
+            left: '330px',
+            fontSize: '2em',
+            color: '#BDBDBD',
         };
         const errLR = {
             ...labelHR,
-	    top: '230px',            
-            left: '140px',
-            fontSize: '1.5em',
+	    top: '340px',            
+            left: '650px',
+            fontSize: '1.0em',
+            color: '#BDBDBD',                        
         };      
         const errSR = {
             ...labelHR,
-	    top: '270px',            
-            left: '100px',
-            fontSize: '1.5em',
+	    top: '340px',            
+            left: '400px',
+            fontSize: '1.0em',
+            color: '#BDBDBD',                        
         };
         const errAxis = {
             ...labelHR,
-	    top: '170px',            
-            left: '170px',
+	    top: '180px',            
+            left: '520px',
             fontSize: '1.0em',
             color: '#9e9e9e',
-        };     
-        
+        };
+        const yaw = {
+            ...labelHR,
+	    top: '130px',            
+            left: '40px',
+            fontSize: '1.0em',
+            color: '#9e9e9e',
+        };             
+        const title = {
+            ...labelHR,
+	    top: '80px',            
+            left: '40px',
+            fontSize: '2.5em',
+            color: '#ffffff',
+        };
+
         const errRollSR = (this.state.cubeRotation2.x  - this.state.cubeRotation1.x);
         const errRollLR = this.state.cubeRotation3.x  - this.state.cubeRotation1.x;
         const errPitchSR = this.state.cubeRotation2.z - this.state.cubeRotation1.z;
@@ -160,52 +178,42 @@ class ThreeMain extends React.Component {
                        rotation={this.state.cubeRotation2}
                       position={new THREE.Vector3(0, 0, 8)}
                     />
-                    <Axis                                
-                      rotation1={this.state.cubeRotation1}
-                      rotation2={this.state.cubeRotation2} 
-                      position={new THREE.Vector3(0, 0, -10)}
-                    />		
                     <Device                                 
                        key={seq3.tag}
                        rotation={this.state.cubeRotation3}
                        position={new THREE.Vector3(15, 0, 8)}
                     />
-                    <Axis                                
-                      rotation1={this.state.cubeRotation1}
-                      rotation2={this.state.cubeRotation3} 
-                      position={new THREE.Vector3(15, 0, -10)}
-                    />
                     <Bar
                       key={"RollLR"}                      
                       depth={errRollLR}
-                      posX={-14}
-                      posZ={-11}
+                      posX={15}
+                      posZ={-4}
                       width={4}
                     />
                     <Bar
                       key={"RollSR"}                      
                       depth={errRollSR}
-                      posX={-14}
-                      posZ={-6}
+                      posX={0}
+                      posZ={-4}
                       width={4}
                     />
                     <Bar
                       key={"PitchLR"}                      
                       depth={errPitchLR}
-                      posX={-6}
-                      posZ={-11}
+                      posX={15}
+                      posZ={-12}
                       width={4}
                     />
                     <Bar
                       key={"PitchSR"}                      
                       depth={errPitchSR}
-                      posX={-6}
-                      posZ={-6}
+                      posX={0}
+                      posZ={-12}
                       width={4}
                     />
                     <mesh
                       rotation={new THREE.Euler(0,0,0,)}
-                      position={new THREE.Vector3(-16, 2.5, -12)}
+                      position={new THREE.Vector3(8, 2.5, -12)}
                     >
                       <boxGeometry
                         width={0.5}
@@ -224,12 +232,14 @@ class ThreeMain extends React.Component {
                   <div style={labelHR} >100 Hz</div>
                   <div style={labelSR} >Proposed</div>
                   <div style={labelLR} >Linear</div>
-                  <div style={errTitle} >MAE <small>[degre]</small></div>
+                  <div style={errTitle} >Absolute Errors <small>[deg]</small></div>
                   <div style={errRoll} >Roll</div>
                   <div style={errPitch} >Pitch</div>                  
-                  <div style={errLR} >Linear</div>
-                  <div style={errSR} >Proposed</div>
-                  <div style={errAxis} >5 [deg]</div>                     
+                  <div style={errAxis} >5 [deg]</div>
+		  <div style={yaw} >(note) "Yaw" angle is fixed in this video.</div>
+                  <div style={title} >Pose Estimation Results</div>
+                  <div style={errSR} >100Hz - Proposed</div>                 
+                  <div style={errLR} >100Hz - Linear</div>                 
 		</div>
               </div>
               <div className="card-footer text-muted">
@@ -242,5 +252,8 @@ class ThreeMain extends React.Component {
     }
 }
 export default ThreeMain
+
+// <div style={errLR} >Linear</div>
+// <div style={errSR} >Proposed</div>
 
 
