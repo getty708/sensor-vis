@@ -20,7 +20,7 @@ class ThreeMain extends React.Component {
         console.log(this.props);
 
         // Init State
-        this.cameraPosition = new THREE.Vector3(0, 25,20);
+        this.cameraPosition = new THREE.Vector3(0, 30, 25);
         this.state = {
             cubeRotation1: new THREE.Euler(),
             cubeRotation2: new THREE.Euler(),
@@ -70,7 +70,7 @@ class ThreeMain extends React.Component {
         const labelHR = {
 	    position: 'absolute',
 	    top: '570px',
-            left: '120px',
+            left: '150px',
 	    textAlign: 'center',
 	    zIndex: 100,
 	    display: 'inline-block',
@@ -83,12 +83,12 @@ class ThreeMain extends React.Component {
         };
         const labelLR = {
             ...labelHR,
-            'left': '730px',            
+            'left': '700px',            
         };
         const errTitle = {
             ...labelHR,
-	    top: '360px',            
-            left: '460px',            
+	    top: '370px',            
+            left: '440px',            
         };
         const errRoll = {
             ...labelHR,
@@ -99,21 +99,21 @@ class ThreeMain extends React.Component {
         };        
         const errPitch = {
             ...labelHR,
-	    top: '220px',            
+	    top: '230px',            
             left: '330px',
             fontSize: '2em',
             color: '#BDBDBD',
         };
         const errLR = {
             ...labelHR,
-	    top: '340px',            
-            left: '650px',
+	    top: '350px',            
+            left: '610px',
             fontSize: '1.0em',
             color: '#BDBDBD',                        
         };      
         const errSR = {
             ...labelHR,
-	    top: '340px',            
+	    top: '350px',            
             left: '400px',
             fontSize: '1.0em',
             color: '#BDBDBD',                        
@@ -171,17 +171,17 @@ class ThreeMain extends React.Component {
                     <Device                                 
                        key={seq1.tag}
                        rotation={this.state.cubeRotation1}
-                       position={new THREE.Vector3(-15, 0, 8)}
+                       position={new THREE.Vector3(-15, 0, 10)}
                        />
                     <Device                                 
                        key={seq2.tag}
                        rotation={this.state.cubeRotation2}
-                      position={new THREE.Vector3(0, 0, 8)}
+                      position={new THREE.Vector3(0, 0, 10)}
                     />
                     <Device                                 
                        key={seq3.tag}
                        rotation={this.state.cubeRotation3}
-                       position={new THREE.Vector3(15, 0, 8)}
+                       position={new THREE.Vector3(15, 0, 10)}
                     />
                     <Bar
                       key={"RollLR"}                      
@@ -236,7 +236,7 @@ class ThreeMain extends React.Component {
                   <div style={errRoll} >Roll</div>
                   <div style={errPitch} >Pitch</div>                  
                   <div style={errAxis} >5 [deg]</div>
-		  <div style={yaw} >(note) "Yaw" angle is fixed in this video.</div>
+		  <div style={yaw} >Hand writeing dataset. "Yaw" angle is fixed in this video.</div>
                   <div style={title} >Pose Estimation Results</div>
                   <div style={errSR} >100Hz - Proposed</div>                 
                   <div style={errLR} >100Hz - Linear</div>                 
