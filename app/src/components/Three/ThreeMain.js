@@ -79,11 +79,18 @@ class ThreeMain extends React.Component {
         };
         const labelSR = {
             ...labelHR,
-            'left': '410px',            
+            'left': '410px',
         };
         const labelLR = {
             ...labelHR,
-            'left': '700px',            
+            'left': '680px',            
+        };
+        const labelLRx = {
+            ...labelHR,
+            top: '610px',            
+            'left': '630px',
+            fontSize: '1.0em',            
+            color: '#BDBDBD',                                    
         };
         const errTitle = {
             ...labelHR,
@@ -231,15 +238,16 @@ class ThreeMain extends React.Component {
 		<div >
                   <div style={labelHR} >100 Hz</div>
                   <div style={labelSR} >Proposed</div>
-                  <div style={labelLR} >Linear</div>
+                  <div style={labelLR} >50 Hz</div>
+                  <div style={labelLRx} >(with linear interpolation)</div>                  
                   <div style={errTitle} >Absolute Errors <small>[deg]</small></div>
                   <div style={errRoll} >Roll</div>
                   <div style={errPitch} >Pitch</div>                  
                   <div style={errAxis} >5 [deg]</div>
-		  <div style={yaw} >Hand writeing dataset. "Yaw" angle is fixed in this video.</div>
+		  <div style={yaw} >Hand writing dataset. "Yaw" angle is fixed in this video.</div>
                   <div style={title} >Pose Estimation Results</div>
                   <div style={errSR} >100Hz - Proposed</div>                 
-                  <div style={errLR} >100Hz - Linear</div>                 
+                  <div style={errLR} >100Hz - 50Hz</div>
 		</div>
               </div>
               <div className="card-footer text-muted">
